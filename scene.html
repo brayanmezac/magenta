@@ -13,6 +13,8 @@
         const instagramButton = document.querySelector("#instagram-button");
         const tiktokButton = document.querySelector("#tiktok-button");
         const youtubeButton = document.querySelector("#youtube-button");
+        const facebookButtonAR = document.querySelector("#facebook-button-ar");
+        const tiktokButtonAR = document.querySelector("#tiktok-button-ar");
         const text = document.querySelector("#text");
 
         facebookButton.setAttribute("visible", true);
@@ -50,6 +52,16 @@
             window.location.href="https://softmind.tech";
           }
         });
+
+        tiktokButtonAR.addEventListener('click', function (evt) {
+          window.location.href="https://www.tiktok.com/@softmindtech";
+        });
+
+        facebookButtonAR.addEventListener('click', function (evt) {
+          window.location.href="https://www.facebook.com/softmindtech";
+        });
+
+        
       }
       
       const showAvatar = (onDone) => {
@@ -61,7 +73,7 @@
             clearInterval(id);
             onDone();
           }
-          avatar.setAttribute("position", "0 0.2 " + z);
+          avatar.setAttribute("position", "0 0 " + z);
         }, 10);
       }
 
@@ -69,14 +81,14 @@
         init: function () {
           this.el.addEventListener('targetFound', event => {
             console.log("target found");
-            showAvatar(() => {
+            
               setTimeout(() => {
                   setTimeout(() => {
                     showInfo();
                   }, 300);
                 
               }, 300);
-            });
+            
           });
           this.el.addEventListener('targetLost', event => {
             console.log("target found");
@@ -97,6 +109,11 @@
         height: 100%;
       }
      
+      my-link {
+        color: transparent;
+        text-decoration: none;
+      }
+
       #example-scanning-overlay {
 	display: flex;
 	align-items: center;
@@ -178,47 +195,53 @@
           <!-- card -->
           <img id="card" src="./assets/card-example/card.png" />
           <img id="logo" src="./assets/card-example/logo-magenta.png" />
+          <!-- video -->
+          <video id="video" autoplay="true" loop="true" src="./assets/card-example/video.mp4"></video>
           <!-- icons -->
           <img id="icon-instagram" src="./assets/card-example/icons/instagram.png" />
           <img id="icon-youtube" src="./assets/card-example/icons/youtube.png" />
           <img id="icon-facebook" src="./assets/card-example/icons/facebook.png" />
           <img id="icon-tiktok" src="./assets/card-example/icons/tiktok.png" />
-          <img id="icon-twitter" src="./assets/card-example/icons/twitter.png" />"          
+          <img id="icon-twitter" src="./assets/card-example/icons/twitter.png" />
+          <!-- icon-ar -->
+          <img id="facebook-icon-ar" src="./assets/card-example/icons/facebook-ar.png" />
+          <img id="tiktok-icon-ar" src="./assets/card-example/icons/tiktok-ar.png" />
           <!-- models 3D -->
-          <a-asset-item id="avatarModel" src=".\assets\card-example\mask_AR_2.gltf"></a-asset-item>
+          <a-asset-item id="avatarModel" src=".\assets\card-example\mask_AR_4.gltf"></a-asset-item>
+          <a-asset-item id="avatarModel2" src=".\assets\card-example\mask_AR_5.gltf"></a-asset-item>
         </a-assets>
 
         <a-camera position="1 1 1" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;" raycaster="far: infinity; objects: .clickable">
         </a-camera>
 
-        <a-entity id="mytarget" mytarget near="infinity">
-          <a-plane src="#card" position="0 0 0" height="1.49" width="1" rotation="0 0 0" ></a-plane>
-          <a-image src="#logo" position="0 0.89 0.11" rotation="36.4 0 0" material="shader: flat; side: double; transparent: true"></a-image>
-          <a-entity id="icons" position="0 0 0">
-            <a-image visible=true id="facebook-button" class="clickable" src="#icon-facebook" position="-0.34 -0.4 0.2" height="0.12" width="0.12"
-              animation="property: scale; to: 1.2 1.2 1.2; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"
-            ></a-image>
+        <a-entity id="mytarget" mytarget near="infinity" rotate="0 0 0">
+          <a-plane src="#video" position="0 0 0" height="1" width="1.49" rotation="0 0 0" ></a-plane>
+          <a-image src="#logo" position="0 0.7 0.11" rotation="36.4 0 0" material="shader: flat; side: double; transparent: true"></a-image>
+          
 
-            <a-image visible=true id="instagram-button" class="clickable" src="#icon-instagram" alpha-test="0.15" position="-0.17 -0.4 0.2" height="0.12" width="0.12"
-              animation="property: scale; to: 1.2 1.2 1.2; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"
-            ></a-image>
-
-            <a-image visible=true id="tiktok-button" class="clickable" src="#icon-tiktok"  position="0 -0.4 0.2" height="0.12" width="0.12"
-              animation="property: scale; to: 1.2 1.2 1.2; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"
-            ></a-image>
-
-            <a-image visible=true id="youtube-button" class="clickable" src="#icon-youtube" position="0.17 -0.4 0.2" height="0.12" width="0.12"
-              animation="property: scale; to: 1.2 1.2 1.2; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"
-            ></a-image>
-
-            <a-image visible=true id="twitter-button" class="clickable" src="#icon-twitter" position="0.34 -0.4 0.2" height="0.12" width="0.12"
-              animation="property: scale; to: 1.2 1.2 1.2; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"
-            ></a-image>
+          <a-gltf-model id="avatar" rotation="90 -90 -90" position="0 0.07 0.0036" scale="0.84 1 0.9" src="#avatarModel2" animation-mixer="">
+          </a-gltf-model>
+          
+          <a-entity id="icons-ar">
+            
+            <a-image src="#tiktok-icon-ar" position="-1.321 0.4 0" scale="1 0.2 1" id="tiktok-button-ar" class="clickable"></a-image>
+            <a-image src="#facebook-icon-ar" position="-1.321 0.1 0" scale="1 0.2 1" id="facebook-button-ar" class="clickable"></a-image>
+            
           </a-entity>
-          <a-gltf-model id="avatar" rotation="-90 -90 -90" position="-0.01 0.34 0.2" scale="1.2 1.2 1.2" src="#avatarModel" animation-mixer></a-gltf-model>
 
-          <a-text id="text" class="clickable" value="hola" color="white" align="center" width="2" rotation="30.4 0 0" position="0 -0.793 -0.026" geometry="primitive:plane; height: 0.1; width: 1;" material="opacity: 0.5; color: #E5007B" near="infinity"></a-text>
-        </a-entity>
+          <a-entity id="icons" position="0.850 0 -0.190" rotation="0 0 0">
+            <a-image visible="" id="facebook-button" class="clickable" src="#icon-facebook" position="0 -0.34 0.2" height="0.12" width="0.12" animation="property: scale; to: 1.2 1.2 1.2; easing: easeInOutQuad; loop: true; dir: alternate" material="" geometry=""></a-image>
+
+            <a-image visible="" id="instagram-button" class="clickable" src="#icon-instagram" alpha-test="0.15" position="0 -0.17 0.2" height="0.12" width="0.12" animation="property: scale; to: 1.2 1.2 1.2; easing: easeInOutQuad; loop: true; dir: alternate" material="" geometry=""></a-image>
+
+            <a-image visible="" id="tiktok-button" class="clickable" src="#icon-tiktok" position="0 0 0.2" height="0.12" width="0.12" animation="property: scale; to: 1.2 1.2 1.2; easing: easeInOutQuad; loop: true; dir: alternate" material="" geometry=""></a-image>
+
+            <a-image visible="" id="youtube-button" class="clickable" src="#icon-youtube" position="0 0.17 0.2" height="0.12" width="0.12" animation="property: scale; to: 1.2 1.2 1.2; easing: easeInOutQuad; loop: true; dir: alternate" material="" geometry=""></a-image>
+
+            <a-image visible="" id="twitter-button" class="clickable" src="#icon-twitter" position="0 0.34 0.2" height="0.12" width="0.12" animation="property: scale; to: 1.2 1.2 1.2; easing: easeInOutQuad; loop: true; dir: alternate" material="" geometry=""></a-image>
+          </a-entity>
+
+          <a-text id="text" class="clickable" value="hola" color="white" align="center" width="1.49" rotation="0 0 0" position="0 -0.58 0" geometry="primitive: plane; height: 0.1" material="opacity: 0.5; color: #E5007B" text=""></a-text>        </a-entity>
       </a-scene>
     </div>
   </body>
