@@ -13,80 +13,45 @@
         const instagramButton = document.querySelector("#instagram-button");
         const tiktokButton = document.querySelector("#tiktok-button");
         const youtubeButton = document.querySelector("#youtube-button");
+        const twitterButton = document.querySelector("#twitter-button");
+
         const facebookButtonAR = document.querySelector("#facebook-button-ar");
         const tiktokButtonAR = document.querySelector("#tiktok-button-ar");
+
         const text = document.querySelector("#text");
         const video = document.querySelector("#video");
-
-        facebookButton.setAttribute("visible", true);
-        setTimeout(() => {
-          instagramButton.setAttribute("visible", true);
-        }, 300);
-        setTimeout(() => {
-          tiktokButton.setAttribute("visible", true);
-        }, 600);
-        setTimeout(() => {
-          youtubeButton.setAttribute("visible", true);
-        }, 900);
-        setTimeout(() => {
-          twitterButton.setAttribute("visible", true);
-        }, 1200);
 
         //play video
         video.play();
 
         facebookButtonAR.addEventListener('click', function (evt) {
-          window.location.href="https://www.facebook.com/masaccionesmen0srostros";
+          window.open('https://www.facebook.com/masaccionesmen0srostros', '_blank');
         });
+
         tiktokButtonAR.addEventListener('click', function (evt) {
-          window.location.href="https://vm.tiktok.com/ZMFTtxy2c/";
+          window.open('https://www.tiktok.com/sticker/Magenta-MR-7289434', '_blank');
         });
 
-        
-        
-
-        let currentTab = '';
         instagramButton.addEventListener('click', function (evt) {
-          text.setAttribute("value", "@masaccionesmenosrostros");
-          currentTab = 'instagram';
+          window.open('https://www.instagram.com/masaccionesmenosrostros/', '_blank');
         });
-        tiktokButton.addEventListener('click', function (evt) {
-          text.setAttribute("value", "@masaccionesmenosrostros");
-          currentTab = 'tiktok';
-        });
-        facebookButton.addEventListener('click', function (evt) {
-          text.setAttribute("value", "Mas Acciones, Menos Rostros");
-          currentTab = 'facebook';
-        });
+
         youtubeButton.addEventListener('click', function (evt) {
-          console.log("loc");
-          text.setAttribute("value", "@MasAccionesMenosRostros");
-          currentTab = 'youtube';
+          window.open('https://www.youtube.com/@MasAccionesMenosRostros', '_blank');
         });
+
         twitterButton.addEventListener('click', function (evt) {
-          text.setAttribute("value", "@Movimiento_MR");
-          currentTab = 'twitter';
+          window.open('https://twitter.com/Movimiento_MR', '_blank');
         });
-        
-        text.addEventListener('click', function (evt) {
-          switch (currentTab) {
-            case 'instagram':
-              window.location.href = "https://www.instagram.com/masaccionesmenosrostros/";
-              break;
-            case 'twitter':
-              window.location.href = "https://twitter.com/Movimiento_MR";
-              break;
-            case 'facebook':
-              window.location.href = "https://www.facebook.com/masaccionesmen0srostros";
-              break;
-            case 'youtube':
-              window.location.href = "https://www.youtube.com/@MasAccionesMenosRostros";
-              break;
-            case 'tiktok':
-              window.location.href = "https://www.tiktok.com/@masaccionesmenosrostros";
-              break;
-          }
+
+        facebookButton.addEventListener('click', function (evt) {
+          window.open('https://www.facebook.com/masaccionesmen0srostros', '_blank');
         });
+
+        tiktokButton.addEventListener('click', function (evt) {
+          window.open('https://www.tiktok.com/@masaccionesmenosrostros', '_blank');
+        });
+
         
       }
       const showAvatar = (onDone) => {
@@ -103,6 +68,25 @@
       }
 
       AFRAME.registerComponent('mytarget', {
+        init: function () {
+          this.el.addEventListener('targetFound', event => {
+            console.log("target found");
+            showAvatar(() => {
+              setTimeout(() => {
+                  setTimeout(() => {
+                    showInfo();
+                  }, 300);
+                
+              }, 300);
+            });
+          });
+          this.el.addEventListener('targetLost', event => {
+            console.log("target found");
+          });
+          this.el.emit('targetFound');
+        }
+      });
+      AFRAME.registerComponent('mytarget2', {
         init: function () {
           this.el.addEventListener('targetFound', event => {
             console.log("target found");
@@ -225,6 +209,7 @@
           <!-- icon-ar -->
           <img id="facebook-icon-ar" src="./assets/card-example/icons/facebook-ar.png" />
           <img id="tiktok-icon-ar" src="./assets/card-example/icons/tiktok-ar.png" />
+          <img id="gira-tarjeta" src="./assets/card-example/icons/Tarjeta-gira.png" />
           <!-- models 3D -->
           <a-asset-item id="avatarModel" src=".\assets\card-example\mask_AR_4.gltf"></a-asset-item>
           <a-asset-item id="avatarModel2" src=".\assets\card-example\mask_AR_5.gltf"></a-asset-item>
@@ -233,7 +218,7 @@
         <a-camera position="1 1 1" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;" raycaster="far: infinity; objects: .clickable">
         </a-camera>
 
-        <a-entity id="mytarget" mytarget mindar-image-target="targetIndex: 0">
+        <a-entity id="mytarget" mytarget mindar-image="filterMinCF:0.01; filterBeta: 70;" mindar-image-target="targetIndex: 1">
           <a-entity scale="0.7 0.7 0.7">
 
             <a-plane src="#video"  position="0 0 0" height="1" width="1.49" rotation="0 0 0"></a-plane>
@@ -248,37 +233,19 @@
             </a-entity>
 
             <a-entity id="icons" position="0.850 0 -0.190" rotation="0 0 0">
-              <a-image visible="" id="facebook-button" class="clickable" src="#icon-facebook" position="0 -0.34 0.2" height="0.12" width="0.12" animation="property: scale; to: 1.2 1.2 1.2; easing: easeInOutQuad; loop: true; dir: alternate" material="" geometry=""></a-image>
+              <a-image visible="" id="facebook-button" class="clickable" src="#icon-facebook" alpha-test="0.15" position="0 -0.34 0.2" height="0.12" width="0.12" animation="property: scale; to: 1.2 1.2 1.2; easing: easeInOutQuad; loop: true; dir: alternate" material="" geometry=""></a-image>
               <a-image visible="" id="instagram-button" class="clickable" src="#icon-instagram" alpha-test="0.15" position="0 -0.17 0.2" height="0.12" width="0.12" animation="property: scale; to: 1.2 1.2 1.2; easing: easeInOutQuad; loop: true; dir: alternate" material="" geometry=""></a-image>
-              <a-image visible="" id="tiktok-button" class="clickable" src="#icon-tiktok" position="0 0 0.2" height="0.12" width="0.12" animation="property: scale; to: 1.2 1.2 1.2; easing: easeInOutQuad; loop: true; dir: alternate" material="" geometry=""></a-image>
-              <a-image visible="" id="youtube-button" class="clickable" src="#icon-youtube" position="0 0.17 0.2" height="0.12" width="0.12" animation="property: scale; to: 1.2 1.2 1.2; easing: easeInOutQuad; loop: true; dir: alternate" material="" geometry=""></a-image>
-              <a-image visible="" id="twitter-button" class="clickable" src="#icon-twitter" position="0 0.34 0.2" height="0.12" width="0.12" animation="property: scale; to: 1.2 1.2 1.2; easing: easeInOutQuad; loop: true; dir: alternate" material="" geometry=""></a-image>
+              <a-image visible="" id="tiktok-button" class="clickable" src="#icon-tiktok" alpha-test="0.15" position="0 0 0.2" height="0.12" width="0.12" animation="property: scale; to: 1.2 1.2 1.2; easing: easeInOutQuad; loop: true; dir: alternate" material="" geometry=""></a-image>
+              <a-image visible="" id="youtube-button" class="clickable" src="#icon-youtube" alpha-test="0.15" position="0 0.17 0.2" height="0.12" width="0.12" animation="property: scale; to: 1.2 1.2 1.2; easing: easeInOutQuad; loop: true; dir: alternate" material="" geometry=""></a-image>
+              <a-image visible="" id="twitter-button" class="clickable" src="#icon-twitter" alpha-test="0.15" position="0 0.34 0.2" height="0.12" width="0.12" animation="property: scale; to: 1.2 1.2 1.2; easing: easeInOutQuad; loop: true; dir: alternate" material="" geometry=""></a-image>
             </a-entity>
             <a-text id="text" class="clickable" value="bienvenido a la transformacion" color="white" align="center" width="1.49" rotation="0 0 0" position="0 -0.58 0" geometry="primitive: plane; height: 0.1" material="opacity: 0.5; color: #E5007B"></a-text>        </a-entity>
           </a-entity>
         </a-entity>
-        <a-entity id="mytarget" mytarget mindar-image-target="targetIndex: 1">
+        <a-entity id="mytarget2" mytarget2 mindar-image-target="targetIndex: 0">
           <a-entity scale="0.7 0.7 0.7">
-            <a-plane src="#video"  position="0 0 0" height="1" width="1.49" rotation="0 0 0"></a-plane>
-            <a-image src="#logo" position="0 0.7 0.11" rotation="36.4 0 0" material="shader: flat; side: double; transparent: true"></a-image>
-            
-            <a-gltf-model id="avatar" rotation="90 -90 -90" position="0 0.07 0.0036" scale="0.84 1 0.9" src="#avatarModel2" animation-mixer="">
-            </a-gltf-model>
 
-            <a-entity id="icons-ar">
-              <a-image src="#tiktok-icon-ar" position="-1.321 0.4 0" scale="1 0.2 1" id="tiktok-button-ar" class="clickable"></a-image>
-              <a-image src="#facebook-icon-ar" position="-1.321 0.1 0" scale="1 0.2 1" id="facebook-button-ar" class="clickable"></a-image>
-            </a-entity>
-
-            <a-entity id="icons" position="0.850 0 -0.190" rotation="0 0 0">
-              <a-image visible="" id="facebook-button" class="clickable" src="#icon-facebook" position="0 -0.34 0.2" height="0.12" width="0.12" animation="property: scale; to: 1.2 1.2 1.2; easing: easeInOutQuad; loop: true; dir: alternate" material="" geometry=""></a-image>
-              <a-image visible="" id="instagram-button" class="clickable" src="#icon-instagram" alpha-test="0.15" position="0 -0.17 0.2" height="0.12" width="0.12" animation="property: scale; to: 1.2 1.2 1.2; easing: easeInOutQuad; loop: true; dir: alternate" material="" geometry=""></a-image>
-              <a-image visible="" id="tiktok-button" class="clickable" src="#icon-tiktok" position="0 0 0.2" height="0.12" width="0.12" animation="property: scale; to: 1.2 1.2 1.2; easing: easeInOutQuad; loop: true; dir: alternate" material="" geometry=""></a-image>
-              <a-image visible="" id="youtube-button" class="clickable" src="#icon-youtube" position="0 0.17 0.2" height="0.12" width="0.12" animation="property: scale; to: 1.2 1.2 1.2; easing: easeInOutQuad; loop: true; dir: alternate" material="" geometry=""></a-image>
-              <a-image visible="" id="twitter-button" class="clickable" src="#icon-twitter" position="0 0.34 0.2" height="0.12" width="0.12" animation="property: scale; to: 1.2 1.2 1.2; easing: easeInOutQuad; loop: true; dir: alternate" material="" geometry=""></a-image>
-            </a-entity>
-            <a-text id="text" class="clickable" value="bienvenido a la transformacion" color="white" align="center" width="1.49" rotation="0 0 0" position="0 -0.58 0" geometry="primitive: plane; height: 0.1" material="opacity: 0.5; color: #E5007B"></a-text>        </a-entity>
-          </a-entity>
+            <a-plane src="#gira-tarjeta"  position="0 0 0" height="1" width="1.49" rotation="0 0 0"></a-plane>
         </a-entity>
       </a-scene>
     </div>
